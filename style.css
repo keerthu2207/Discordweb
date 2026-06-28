@@ -1,0 +1,148 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#202225;
+}
+
+.container{
+    display:flex;
+    height:100vh;
+}
+
+/* ===========================
+   LEFT ICON BAR
+=========================== */
+
+.icons{
+    width:70px;
+    background:#1b1b1d;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding-top:20px;
+    gap:18px;
+}
+
+.icon{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    background:#36393f;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+    text-decoration:none;
+    cursor:pointer;
+}
+
+.active{
+    background:#5865f2;
+}
+
+/* ===========================
+   SIDEBAR
+=========================== */
+
+.sidebar{
+    width:280px;
+    background:#2b2d31;
+    display:flex;
+    flex-direction:column;
+    padding:15px;
+}
+
+/* Server Name */
+
+.server-name{
+    color:white;
+    font-size:22px;
+    font-weight:bold;
+    margin-bottom:3px;
+}
+
+/* Section Heading */
+
+.menu-title{
+    color:#999;
+    font-size:16px;
+    margin:10px;
+    font-weight:bold;
+}
+
+.sidebar ul{
+    list-style:none;
+}
+
+/* Channel */
+
+.sidebar li{
+    padding:12px;
+    border-radius:5px;
+    cursor:pointer;
+    margin-bottom:5px;
+}
+
+.sidebar li:hover{
+    background:#404249;
+}
+
+.selected{
+    background:#404249;
+}
+
+.sidebar a{
+    text-decoration:none;
+    color:white;
+    display:block;
+}
+
+/* ===========================
+   USER PROFILE
+=========================== */
+
+.user{
+    margin-top:auto;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-top:1px solid #444;
+    padding-top:15px;
+}
+
+.avatar{
+    width:35px;
+    height:35px;
+    border-radius:50%;
+    background:pink;
+}
+
+.user h4{
+    color:white;
+    font-size:16px;
+}
+
+.user small{
+    color:#b5bac1;
+}
+
+/* ===========================
+   MAIN
+=========================== */
+
+.main{
+    flex:1;
+    background:#313338;
+}
+
+iframe{
+    width:100%;
+    height:100%;
+    border:none;
+    display:block;
+}
