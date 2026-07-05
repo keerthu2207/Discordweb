@@ -80,7 +80,8 @@ a{
 }
 
 .menu li:hover,
-.dm li:hover{
+.dm li:hover,
+.dm li.selected{
     background:#404249;
 }
 
@@ -93,6 +94,27 @@ a{
     margin:20px 0 10px;
 }
 
+.auth-gate{
+    display:none;
+    flex:1;
+    align-items:center;
+    justify-content:center;
+    padding:30px;
+    background:#313338;
+    color:#fff;
+    font-size:18px;
+    text-align:center;
+}
+
+.auth-gate.active{
+    display:flex;
+}
+
+.sidebar.hidden,
+.main.hidden{
+    display:none;
+}
+
 .profile{
     margin-top:auto;
     display:flex;
@@ -100,6 +122,32 @@ a{
     gap:10px;
     border-top:1px solid #444;
     padding-top:15px;
+}
+
+.profile-info{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+}
+
+.auth-actions{
+    display:flex;
+    gap:8px;
+    margin-top:4px;
+}
+
+.auth-btn{
+    border:none;
+    border-radius:999px;
+    padding:6px 10px;
+    background:#5865f2;
+    color:white;
+    cursor:pointer;
+    font-size:12px;
+}
+
+.auth-btn.hidden{
+    display:none;
 }
 
 .avatar{
@@ -150,7 +198,7 @@ a{
 }
 
 .active-btn{
-    background:#404249;
+    background:#5865f2;
 }
 
 .add{
@@ -161,6 +209,25 @@ a{
 .content{
     display:flex;
     flex:1;
+}
+
+.frame-shell{
+    flex:1;
+    height:100%;
+    overflow:hidden;
+}
+
+iframe{
+    width:100%;
+    height:100%;
+    border:none;
+    display:block;
+    transition:opacity 0.25s ease, transform 0.25s ease;
+}
+
+iframe.is-transitioning{
+    opacity:0;
+    transform:translateY(8px);
 }
 
 .friends{

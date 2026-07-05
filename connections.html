@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Discord Friends UI</title>
 <link rel="stylesheet" href="connections.css">
+<script src="connections.js" defer></script>
 </head>
 <body>
 
@@ -15,40 +16,42 @@
     <div class="icon-bar">
 
         <div class="icon active"><a href="#">F</a></div>
-        <div ><a href="index.html" class="icon">I</a></div>
+        <div><a href="index.html" class="icon">I</a></div>
         <div class="icon"><a href="#">+</a></div>
-
 
     </div>
 
+    <div id="authGate" class="auth-gate">Please log in to view your direct messages.</div>
+
     <!-- Sidebar -->
 
-    <div class="sidebar">
+    <div class="sidebar" id="sidebar">
 
         <input type="text" placeholder="Find or start a conversation">
-
 
         <h4>Direct Messages</h4>
 
         <ul class="dm">
-
-            <li>Indiwebpros</li>
-            <li>Kanishcharan</li>
-            <li>Jainitteesh</li>
-            <li>Jayavarshan</li>
-            <li>Pranaya</li>
-
-
+            <li class="selected" data-page="indiwebpros.html">Indiwebpros</li>
+            <li data-page="kanishcharan.html">Kanishcharan</li>
+            <li data-page="jainitteesh.html">Jainitteesh</li>
+            <li data-page="jayavarshan.html">Jayavarshan</li>
+            <li data-page="pranaya.html">Pranaya</li>
         </ul>
 
         <div class="profile">
 
             <div class="avatar"></div>
 
-            <div>
+            <div class="profile-info">
 
-                <strong>Keerthanaa</strong><br>
-                <small>Online</small>
+                <strong id="userName">Keerthanaa</strong>
+                <small id="userStatus">Online</small>
+
+                <div class="auth-actions">
+                    <button id="loginBtn" class="auth-btn">Login</button>
+                    <button id="logoutBtn" class="auth-btn hidden">Logout</button>
+                </div>
 
             </div>
 
@@ -58,7 +61,7 @@
 
     <!-- Main -->
 
-    <div class="main">
+    <div class="main" id="main">
 
         <div class="topbar">
 
@@ -66,59 +69,19 @@
 
                 <span class="title">Friends</span>
 
-                <button class="active-btn">Online</button>
-                <button>All</button>
-                <button>Pending</button>
-                <button class="add">Add Friend</button>
+                <button class="active-btn" data-view="online">Online</button>
+                <button data-view="all">All</button>
+                <button data-view="pending">Pending</button>
+                <button class="add" data-view="add-friend">Add Friend</button>
 
             </div>
 
         </div>
 
         <div class="content">
-
-            <!-- Friends List -->
-
-            <div class="friends">
-
-                <input type="text" placeholder="Search">
-
-                <p class="count">Online - 1</p>
-
-                <div class="friend">
-
-                    <div class="avatar pink"></div>
-
-                    <div>
-
-                        <h3>Kanishcharan</h3>
-                        <p>Do Not Disturb</p>
-
-                    </div>
-
-                </div>
-
+            <div class="frame-shell">
+                <iframe id="chatFrame" src="indiwebpros.html" name="chatFrame"></iframe>
             </div>
-
-            <!-- Active Now -->
-
-            <div class="right-panel">
-
-                <h2>Active Now</h2>
-
-                <div class="card">
-
-                    <h3>It's quiet for now...</h3>
-
-                    <p>
-                        When a friend starts an activity,
-                        it will appear here.
-                    </p>
-
-                </div>
-
-            </div>
-
         </div>
 
     </div>

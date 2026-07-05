@@ -100,6 +100,12 @@ body{
     text-decoration:none;
     color:white;
     display:block;
+    padding:12px;
+    border-radius:5px;
+}
+
+.sidebar a.selected-link{
+    background:#404249;
 }
 
 /* ===========================
@@ -140,9 +146,47 @@ body{
     background:#313338;
 }
 
+.frame-shell{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
+
 iframe{
     width:100%;
     height:100%;
     border:none;
     display:block;
+    transition:opacity 0.25s ease, transform 0.25s ease;
+}
+
+iframe.is-transitioning{
+    opacity:0;
+    transform:translateY(8px);
+}
+
+.user-info{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+}
+
+.auth-actions{
+    display:flex;
+    gap:8px;
+    margin-top:4px;
+}
+
+.auth-btn{
+    border:none;
+    border-radius:999px;
+    padding:6px 10px;
+    background:#5865f2;
+    color:white;
+    cursor:pointer;
+    font-size:12px;
+}
+
+.auth-btn.hidden{
+    display:none;
 }

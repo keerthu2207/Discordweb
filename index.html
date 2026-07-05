@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Discord-web</title>
 <link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
 </head>
 
 <body>
@@ -26,7 +27,7 @@
 
     <!-- Sidebar -->
 
-    <div class="sidebar">
+    <div class="sidebar" id="channelSidebar">
 
         <div class="server-name">
             Indiwebpros
@@ -39,7 +40,7 @@
         <ul>
 
             <li class="selected">
-                <a href="general.html" target="chatFrame"># general</a>
+                <a href="general.html" target="chatFrame" class="selected-link"># general</a>
             </li>
 
             <li>
@@ -84,11 +85,16 @@
 
             <div class="avatar"></div>
 
-            <div>
+            <div class="user-info">
 
-                <h4>Keerthanaa</h4>
+                <h4 id="userName">Keerthanaa</h4>
 
-                <small>Online</small>
+                <small id="userStatus">Online</small>
+
+                <div class="auth-actions">
+                    <button id="loginBtn" class="auth-btn">Login</button>
+                    <button id="logoutBtn" class="auth-btn hidden">Logout</button>
+                </div>
 
             </div>
 
@@ -99,12 +105,11 @@
 
     <!-- Chat Area -->
 
-    <div class="main">
+    <div class="main" id="chatArea">
 
-        <iframe
-            src="general.html"
-            name="chatFrame">
-        </iframe>
+        <div class="frame-shell">
+            <iframe id="chatFrame" src="general.html" name="chatFrame"></iframe>
+        </div>
 
     </div>
 
