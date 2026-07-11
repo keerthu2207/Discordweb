@@ -29,8 +29,7 @@ This project is a lightweight front-end community layout inspired by Discord. Th
 From the project root, start the local verification server:
 
 ```powershell
-Set-Location 'D:\GitHub\Discordweb'
-& 'C:\Program Files\OutSystems\Service Studio 11\Service Studio\node.exe' server.js
+Set-Location '\GitHub\Discordweb'
 ```
 
 Then open:
