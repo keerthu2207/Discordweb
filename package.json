@@ -1,0 +1,10 @@
+{
+  "name": "discordweb-react",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Discord-style community site migrated to a React-based front-end.",
+  "scripts": {
+    "start": "python -m http.server 3000",
+    "serve": "python -m http.server 3000"
+  }
+}

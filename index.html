@@ -1,119 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Discord-web</title>
-<link rel="stylesheet" href="style.css">
-<script src="script.js" defer></script>
-</head>
-
-<body>
-
-<div class="container">
-
-    <!-- Left Icons -->
-
-    <div class="icons">
-
-        <a href="connections.html" class="icon">F</a>
-
-        <a href="#" class="icon active">I</a>
-
-        <a href="#" class="icon">+</a>
-
-    </div>
-
-
-    <!-- Sidebar -->
-
-    <div class="sidebar" id="channelSidebar">
-
-        <div class="server-name">
-            Indiwebpros
-        </div>
-
-        <div class="menu-title">
-            START HERE
-        </div>
-
-        <ul>
-
-            <li class="selected">
-                <a href="general.html" target="chatFrame" class="selected-link"># general</a>
-            </li>
-
-            <li>
-                <a href="announcement.html" target="chatFrame">
-                    # announcements
-                </a>
-            </li>
-
-        </ul>
-
-
-        <div class="menu-title">
-            RESOURCES
-        </div>
-
-        <ul>
-
-            <li>
-                <a href="htmlresources.html" target="chatFrame">
-                    # html-resources
-                </a>
-            </li>
-
-            <li>
-                <a href="cssresources.html" target="chatFrame">
-                    # css-resources
-                </a>
-            </li>
-
-            <li>
-                <a href="gitresources.html" target="chatFrame">
-                    # Git-resources
-                </a>
-            </li>
-
-            <li>🔊 Classes</li>
-
-        </ul>
-
-
-        <div class="user">
-
-            <div class="avatar"></div>
-
-            <div class="user-info">
-
-                <h4 id="userName">Keerthanaa</h4>
-
-                <small id="userStatus">Online</small>
-
-                <div class="auth-actions">
-                    <button id="loginBtn" class="auth-btn">Login</button>
-                    <button id="logoutBtn" class="auth-btn hidden">Logout</button>
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- Chat Area -->
-
-    <div class="main" id="chatArea">
-
-        <div class="frame-shell">
-            <iframe id="chatFrame" src="general.html" name="chatFrame"></iframe>
-        </div>
-
-    </div>
-
-</div>
-
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Discord-web</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/connections.css" />
+    <link rel="stylesheet" href="assets/css/chat.css" />
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js" defer></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" defer></script>
+    <script src="src/main.js" defer></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
 </html>

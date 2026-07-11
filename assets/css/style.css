@@ -9,6 +9,11 @@ body{
     background:#202225;
 }
 
+button,
+input{
+    font: inherit;
+}
+
 .container{
     display:flex;
     height:100vh;
@@ -39,6 +44,8 @@ body{
     color:white;
     text-decoration:none;
     cursor:pointer;
+    border:none;
+    font-weight:bold;
 }
 
 .active{
@@ -96,15 +103,21 @@ body{
     background:#404249;
 }
 
-.sidebar a{
+.sidebar-link{
     text-decoration:none;
     color:white;
     display:block;
     padding:12px;
     border-radius:5px;
+    background:transparent;
+    width:100%;
+    border:none;
+    text-align:left;
+    cursor:pointer;
 }
 
-.sidebar a.selected-link{
+.sidebar-link.selected-link,
+.sidebar-link:hover{
     background:#404249;
 }
 
@@ -144,6 +157,12 @@ body{
 .main{
     flex:1;
     background:#313338;
+}
+
+.chat-shell{
+    display:flex;
+    flex-direction:column;
+    height:100%;
 }
 
 .frame-shell{
