@@ -5,12 +5,9 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**",
-      "backend/**",
-      "discordweb-auth/**",
       "package*.json",
       "README.md",
-      "server.js",
-      "pages/legacy/**"
+      "server.js"
     ],
     "rewrites": [
       {
