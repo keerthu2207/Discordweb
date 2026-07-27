@@ -33,70 +33,193 @@ const channels = [
   },
 ];
 
-const directMessages = [
-  { id: 'indiwebpros', title: '# Indiwebpros', subtitle: 'Chat with the Indiwebpros team.', placeholder: 'Message Indiwebpros' },
-  { id: 'kanishcharan', title: '# Kanishcharan', subtitle: 'Start a conversation with Kanishcharan.', placeholder: 'Message Kanishcharan' },
-  { id: 'jainitteesh', title: '# Jainitteesh', subtitle: 'Start a conversation with Jainitteesh.', placeholder: 'Message Jainitteesh' },
-  { id: 'jayavarshan', title: '# Jayavarshan', subtitle: 'Start a conversation with Jayavarshan.', placeholder: 'Message Jayavarshan' },
-  { id: 'pranaya', title: '# Pranaya', subtitle: 'Start a conversation with Pranaya.', placeholder: 'Message Pranaya' },
+const USERS = [
+  { username: 'keerthanaa', password: 'keerthanaa', displayName: 'Keerthanaa' },
+  { username: 'varshan', password: 'varshan', displayName: 'Varshan' },
+  { username: 'jaini', password: 'jaini', displayName: 'Jaini' },
+  { username: 'kanish', password: 'kanish', displayName: 'Kanish' },
+  { username: 'pranaya', password: 'pranaya', displayName: 'Pranaya' },
 ];
 
 const AUTH_KEY = 'discordAuthState';
+const EMPTY_DIRECT_MESSAGE = {
+  id: 'direct-messages',
+  title: '# direct-messages',
+  subtitle: 'Select a direct message to start chatting.',
+  placeholder: 'Message a friend',
+};
+
+function createDirectMessage(user) {
+  return {
+    id: user.username,
+    title: `# ${user.displayName}`,
+    subtitle: `Start a conversation with ${user.displayName}.`,
+    placeholder: `Message ${user.displayName}`,
+  };
+}
+
+function getDirectMessages(currentUser) {
+  if (!currentUser) return [];
+
+  return USERS
+    .filter((user) => user.username !== currentUser.username)
+    .map(createDirectMessage);
+}
+
+function readAuthUser() {
+  try {
+    const raw = localStorage.getItem(AUTH_KEY);
+    if (!raw || raw === 'false') return null;
+    if (raw === 'true') return USERS[0];
+    const user = JSON.parse(raw);
+    return USERS.find((item) => item.username === user.username) || null;
+  } catch {
+    return null;
+  }
+}
 
 function App() {
   const [activeView, setActiveView] = useState('home');
   const [activeChannel, setActiveChannel] = useState('general');
   const [activeFriend, setActiveFriend] = useState('indiwebpros');
   const [activeFilter, setActiveFilter] = useState('online');
-  const [loggedIn, setLoggedIn] = useState(() => localStorage.getItem(AUTH_KEY) === 'true');
+  const [authUser, setAuthUser] = useState(readAuthUser);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [loginError, setLoginError] = useState('');
 
   useEffect(() => {
-    const syncAuth = () => {
-      setLoggedIn(localStorage.getItem(AUTH_KEY) === 'true');
-    };
+    const syncAuth = () => setAuthUser(readAuthUser());
 
     window.addEventListener('storage', syncAuth);
     return () => window.removeEventListener('storage', syncAuth);
   }, []);
 
+  useEffect(() => {
+    if (!authUser) return;
+
+    const nextDirectMessages = getDirectMessages(authUser);
+    const activeFriendExists = nextDirectMessages.some((friend) => friend.id === activeFriend);
+
+    if (!activeFriendExists) {
+      setActiveFriend(nextDirectMessages[0]?.id || EMPTY_DIRECT_MESSAGE.id);
+    }
+  }, [activeFriend, authUser]);
+
+  const loggedIn = Boolean(authUser);
+  const directMessages = getDirectMessages(authUser);
   const currentChannel = channels.find((item) => item.id === activeChannel) || channels[0];
-  const currentFriend = directMessages.find((item) => item.id === activeFriend) || directMessages[0];
-  const username = loggedIn ? 'Keerthanaa' : 'Guest User';
+  const currentFriend = directMessages.find((item) => item.id === activeFriend) || directMessages[0] || EMPTY_DIRECT_MESSAGE;
+  const username = authUser ? authUser.displayName : 'Guest User';
   const status = loggedIn ? 'Online' : 'Offline';
 
-  const applyAuthState = (nextValue) => {
-    localStorage.setItem(AUTH_KEY, String(nextValue));
-    setLoggedIn(nextValue);
+  const applyAuthState = (user) => {
+    if (user) {
+      localStorage.setItem(AUTH_KEY, JSON.stringify({ username: user.username, displayName: user.displayName }));
+    } else {
+      localStorage.removeItem(AUTH_KEY);
+    }
+    setAuthUser(user);
+  };
+
+  const handleLogin = (usernameInput, password) => {
+    const match = USERS.find(
+      (user) => user.username === usernameInput.toLowerCase() && user.password === password
+    );
+
+    if (!match) {
+      setLoginError('Invalid username or password.');
+      return;
+    }
+
+    applyAuthState(match);
+    setLoginError('');
+    setShowLoginModal(false);
+  };
+
+  const layoutProps = {
+    loggedIn,
+    username,
+    status,
+    onOpenLogin: () => {
+      setLoginError('');
+      setShowLoginModal(true);
+    },
+    onLogout: () => applyAuthState(null),
   };
 
   return h(
     'div',
     { className: 'container' },
+    showLoginModal
+      ? h(LoginModal, {
+          error: loginError,
+          onClose: () => setShowLoginModal(false),
+          onLogin: handleLogin,
+        })
+      : null,
     activeView === 'home'
       ? h(HomeLayout, {
+          ...layoutProps,
           activeChannel,
           currentChannel,
-          loggedIn,
-          username,
-          status,
           onSwitchView: setActiveView,
           onSelectChannel: setActiveChannel,
-          onLogin: () => applyAuthState(true),
-          onLogout: () => applyAuthState(false),
         })
       : h(ConnectionsLayout, {
+          ...layoutProps,
           activeFriend,
           currentFriend,
+          directMessages,
           activeFilter,
-          loggedIn,
-          username,
-          status,
           onSwitchView: setActiveView,
           onSelectFriend: setActiveFriend,
           onChangeFilter: setActiveFilter,
-          onLogin: () => applyAuthState(true),
-          onLogout: () => applyAuthState(false),
         })
+  );
+}
+
+function LoginModal({ error, onClose, onLogin }) {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    onLogin(username.trim(), password);
+  };
+
+  return h(
+    'div',
+    { className: 'login-overlay', onClick: onClose },
+    h(
+      'div',
+      { className: 'login-modal', onClick: (event) => event.stopPropagation() },
+      h('h2', null, 'Welcome back!'),
+      h('p', { className: 'login-subtitle' }, 'Log in to Discord-web'),
+      error ? h('p', { className: 'login-error' }, error) : null,
+      h(
+        'form',
+        { onSubmit: handleSubmit },
+        h('label', { htmlFor: 'login-username' }, 'Username'),
+        h('input', {
+          id: 'login-username',
+          type: 'text',
+          value: username,
+          onChange: (event) => setUsername(event.target.value),
+          placeholder: 'Enter username',
+          autoFocus: true,
+        }),
+        h('label', { htmlFor: 'login-password' }, 'Password'),
+        h('input', {
+          id: 'login-password',
+          type: 'password',
+          value: password,
+          onChange: (event) => setPassword(event.target.value),
+          placeholder: 'Enter password',
+        }),
+        h('button', { type: 'submit', className: 'login-submit' }, 'Log In')
+      ),
+      h('button', { type: 'button', className: 'login-cancel', onClick: onClose }, 'Cancel')
+    )
   );
 }
 
@@ -152,7 +275,7 @@ function HomeLayout(props) {
               {
                 type: 'button',
                 className: `auth-btn ${props.loggedIn ? 'hidden' : ''}`,
-                onClick: props.onLogin,
+                onClick: props.onOpenLogin,
               },
               'Login'
             ),
@@ -193,7 +316,7 @@ function ConnectionsLayout(props) {
       h(
         'ul',
         { className: 'dm' },
-        directMessages.map((friend) =>
+        props.directMessages.map((friend) =>
           h(
             'li',
             {
@@ -222,7 +345,7 @@ function ConnectionsLayout(props) {
               {
                 type: 'button',
                 className: `auth-btn ${props.loggedIn ? 'hidden' : ''}`,
-                onClick: props.onLogin,
+                onClick: props.onOpenLogin,
               },
               'Login'
             ),
